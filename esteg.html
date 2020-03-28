@@ -29,6 +29,13 @@
             line-height: .5;
             border-radius: .2rem;
         }
+        .btn-group-xxs>.btn,
+        .btn-xxs {
+            padding: .35rem .2rem;
+            font-size: .675rem;
+            line-height: .3;
+            border-radius: .2rem;
+        }
     </style>
 </head>
 
@@ -54,7 +61,12 @@
                     <div class="card mt-2">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="exampleFormControlTextarea1" style="font-size: 10pt;">Copie o texto recebido aqui</label>
+                                <label for="exampleFormControlTextarea1" style="font-size: 10pt;">
+                                    Copie o texto recebido aqui
+                                    <a class="ml-5 btn btn-primary btn-xxs" href="#" onclick="limpar()">
+                                        Limpar texto
+                                    </a>
+                                </label>
                                 <textarea  style="font-size: 10pt;" id="textomsg" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                             </div>
                             <div class="text-center">
@@ -73,7 +85,12 @@
                     <div class="card mt-2">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="exampleFormControlTextarea1" style="font-size: 10pt;">Texto normal</label>
+                                <label for="exampleFormControlTextarea1" style="font-size: 10pt;">
+                                    Texto normal
+                                    <a class="ml-5 btn btn-primary btn-xxs" href="#" onclick="limpar2()">
+                                        Limpar texto
+                                    </a>
+                                </label>
                                 <textarea style="font-size: 10pt;" id="textonormal" class="form-control" id="exampleFormControlTextarea1" rows="3">Oi...bom dia! Tudo bem com vc?</textarea>
                             </div>
                             <div class="form-group">
@@ -123,6 +140,12 @@
     }
     function copytoclip() {
         simplecopy(document.getElementById('msgencode').innerHTML);
+    }
+    function limpar() {
+        document.getElementById('textomsg').value = "";
+    }
+    function limpar2() {
+        document.getElementById('textonormal').value = "";
     }
 </script>
 </html>
