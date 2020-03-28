@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script src="./unicode_steganography.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule="" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js"></script>
+    <script src="./simplecopy.min.js"></script>
+    <title>steg</title>
+
+    <style>
+        .btn-group-xs>.btn,
+        .btn-xs {
+            padding: .45rem .4rem;
+            font-size: .875rem;
+            line-height: .5;
+            border-radius: .2rem;
+        }
+    </style>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <!-- Begin page content -->
+    <main role="main" class="flex-shrink-0">
+        <div class="container">
+
+            <p class="mt-2" style="color: #6f7986;">O que foi escrito de verdade?</p>
+
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#code" role="tab"
+                        aria-controls="home" aria-selected="true" style="font-size: 10pt;">Descobrir</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#decode" role="tab"
+                        aria-controls="profile" aria-selected="false" style="font-size: 10pt;">Criar</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="code" role="tabpanel">
+                    <div class="card mt-2">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1" style="font-size: 10pt;">Copie o texto recebido aqui</label>
+                                <textarea  style="font-size: 10pt;" id="textomsg" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-primary btn-xs" onclick="decode()">
+                                    <ion-icon name="glasses-outline"></ion-icon>
+                                    Descobrir
+                                </button>
+                            </div>
+                            <div id="msgdecode" class="alert alert-dark mt-2" role="alert" style="font-size: 10pt; color: #6f7986;">
+                                ...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="decode" role="tabpanel">
+                    <div class="card mt-2">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1" style="font-size: 10pt;">Texto normal</label>
+                                <textarea style="font-size: 10pt;" id="textonormal" class="form-control" id="exampleFormControlTextarea1" rows="3">Oi...bom dia! Tudo bem com vc?</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1" style="font-size: 10pt;">Mensagem</label>
+                                <textarea style="font-size: 10pt;" id="msg" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-primary btn-xs" onclick="encode()">
+                                    <ion-icon name="glasses-outline"></ion-icon>
+                                    Gerar
+                                </button>
+                            </div>
+                            <div id="msgencode" class="alert alert-dark mt-2" role="alert" style="font-size: 10pt; color: #6f7986;">
+                                ...
+                            </div>
+                            <div class="text-right">
+                                <button type="button" class="btn btn-primary btn-xs" onclick="copytoclip()">
+                                    <ion-icon name="copy-outline"></ion-icon>
+                                    Copiar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </main>
+</body>
+<script>
+    function decode() {
+        console.log("decode");
+        var text1 = document.getElementById('textomsg').value;
+        console.log(text1);
+        var result = unicodeSteganographer.decodeText(text1);
+        console.log(result.hiddenText);
+        document.getElementById('msgdecode').innerHTML = result.hiddenText;
+    }
+    function encode() {
+        console.log("encode");
+        var text1 = document.getElementById('textonormal').value;
+        console.log(text1);
+        var text2 = document.getElementById('msg').value;
+        console.log(text2);
+        var stego = unicodeSteganographer.encodeText(text1, text2);
+        console.log(stego);
+        //document.getElementById('msgencodearea').value = stego;
+        document.getElementById('msgencode').innerHTML = stego;
+    }
+    function copytoclip() {
+        simplecopy(document.getElementById('msgencode').innerHTML);
+    }
+</script>
+</html>
